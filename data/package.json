@@ -1,0 +1,19 @@
+{
+    "name": "@micetf/data",
+    "version": "1.0.0",
+    "private": true,
+    "main": "index.js",
+    "module": "index.js",
+    "type": "module",
+    "description": "Données centralisées pour les applications MiCetF",
+    "keywords": [
+        "micetf",
+        "data",
+        "applications"
+    ],
+    "files": [
+        "src",
+        "assets",
+        "index.js"
+    ]
+}
