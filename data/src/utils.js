@@ -1,47 +1,14 @@
 /**
  * Module de fonctions utilitaires
- *
  * @module utils
  */
 
-/**
- * Chemin de base pour les miniatures
- * @type {string}
- */
-export const THUMBNAIL_PATH = "./assets/thumbnails/";
-
-/**
- * Construit le chemin complet pour une miniature
- *
- * @param {string} filename - Nom du fichier image
- * @returns {string} Chemin complet vers la miniature
- */
-export const getFullThumbnailPath = (filename) => {
-    if (!filename) return `${THUMBNAIL_PATH}default.jpg`;
-    if (filename.startsWith("http")) return filename; // URL externe
-    return `${THUMBNAIL_PATH}${filename}`;
-};
-
-/**
- * Récupère l'URL complète d'une miniature, adaptée pour l'environnement de déploiement actuel
- *
- * @param {string} filename - Nom du fichier image
- * @param {string} [prefix] - Préfixe à utiliser en production (ex: "home")
- * @returns {string} URL complète vers la miniature
- */
-export const getThumbnailUrl = (filename, prefix = null) => {
-    console.log(filename);
-    if (!filename) filename = "default.jpg";
-    if (filename.startsWith("http")) return filename; // URL externe
-
-    // Si nous sommes en production et qu'un préfixe est fourni
-    if (prefix && prefix !== ".") {
-        return `/${prefix}/assets/thumbnails/${filename}`;
-    }
-
-    // En développement
-    return `./public/assets/thumbnails/${filename}`;
-};
+// Réexporter les fonctions liées aux thumbnails pour maintenir la compatibilité
+export {
+    THUMBNAIL_PATH,
+    getFullThumbnailPath,
+    getThumbnailPath,
+} from "./thumbnails.js";
 
 /**
  * Filtre les outils selon un terme de recherche
@@ -63,4 +30,20 @@ export const filterToolsBySearchTerm = (tools, searchTerm) => {
                     keyword.toLowerCase().includes(searchLower)
                 ))
     );
+};
+
+/**
+ * Formate une date au format français (JJ/MM/AAAA)
+ *
+ * @param {Date|string} date - Date à formater
+ * @returns {string} Date formatée
+ */
+export const formatDate = (date) => {
+    const d = new Date(date);
+    return d.toLocaleDateString("fr-FR");
+};
+
+export default {
+    filterToolsBySearchTerm,
+    formatDate,
 };
