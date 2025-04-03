@@ -2664,6 +2664,7 @@ export const getApplicationsByDomain = (domaine) => {
  *
  * @param {string} domaine - Le domaine à filtrer
  * @returns {Object[]} Outils filtrés par domaine
+ * @deprecated Utilisez getApplicationsByDomain à la place
  */
 export const outils = (domaine) => {
     return getApplicationsByDomain(domaine);

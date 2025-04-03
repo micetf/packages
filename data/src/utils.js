@@ -3,13 +3,6 @@
  * @module utils
  */
 
-// Réexporter les fonctions liées aux thumbnails pour maintenir la compatibilité
-export {
-    THUMBNAIL_PATH,
-    getFullThumbnailPath,
-    getThumbnailPath,
-} from "./thumbnails.js";
-
 /**
  * Filtre les outils selon un terme de recherche
  *
@@ -41,9 +34,4 @@ export const filterToolsBySearchTerm = (tools, searchTerm) => {
 export const formatDate = (date) => {
     const d = new Date(date);
     return d.toLocaleDateString("fr-FR");
-};
-
-export default {
-    filterToolsBySearchTerm,
-    formatDate,
 };

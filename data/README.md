@@ -1,6 +1,6 @@
-# Domaine Data
+# MiCetF Data - Package de données partagées
 
-Ce package centralise toutes les données descriptives des applications du domaine. Il permet une gestion unifiée des informations qui peuvent être partagées entre toutes les applications.
+Ce package centralise toutes les données descriptives des applications du domaine MiCetF. Il permet une gestion unifiée des informations qui peuvent être partagées entre toutes les applications.
 
 ## Installation
 
@@ -14,22 +14,22 @@ Si vous souhaitez utiliser ces données dans un projet externe, vous pouvez les 
 
 ```bash
 # Si vous avez publié le package sur npm :
-npm install @domaine/data
+npm install micetf-data
 
 # Si vous utilisez un lien local :
 npm install file:../path/to/packages/data
 ```
 
-## Utilisation
+## API
 
-### Accès aux applications
+### Applications
 
 ```javascript
 import {
     applications,
     getApplicationById,
     getApplicationsByDomain,
-} from "@domaine/data";
+} from "micetf-data";
 
 // Récupérer toutes les applications
 console.log(applications);
@@ -43,60 +43,85 @@ const mathsApps = getApplicationsByDomain("maths");
 console.log(mathsApps);
 ```
 
-### Accès aux domaines
+### Domaines
 
 ```javascript
-import { domaines, getDomaineById } from "@domaine/data";
+import { domaines, getDomaineById, getAllDomaines } from "micetf-data";
 
 // Récupérer tous les domaines
 console.log(domaines);
+// Alternative
+console.log(getAllDomaines());
 
 // Récupérer un domaine par son ID
 const maths = getDomaineById("maths");
 console.log(maths);
 ```
 
-### Fonctions utilitaires
+### Miniatures et images
 
 ```javascript
-import { getFullThumbnailPath, filterToolsBySearchTerm } from "@domaine/data";
+import { getThumbnailUrl, thumbnailExists } from "micetf-data";
 
-// Obtenir le chemin complet d'une miniature
-const thumbnailPath = getFullThumbnailPath("appli1.jpg");
-console.log(thumbnailPath);
+// Obtenir l'URL d'une miniature
+const thumbnailUrl = getThumbnailUrl("fractions.png");
+console.log(thumbnailUrl);
+
+// Vérifier si une miniature existe
+const exists = thumbnailExists("fractions.png");
+console.log(exists);
+```
+
+### Utilitaires
+
+```javascript
+import { filterToolsBySearchTerm, formatDate } from "micetf-data";
 
 // Filtrer les outils par terme de recherche
 const filteredTools = filterToolsBySearchTerm(applications, "fraction");
 console.log(filteredTools);
+
+// Formater une date
+console.log(formatDate("2024-03-31")); // Affiche "31/03/2024"
 ```
 
 ### Constantes
 
 ```javascript
-import { VERSION, LAST_UPDATE, PAYPAL_ID } from "@domaine/data";
+import {
+    VERSION,
+    LAST_UPDATE,
+    PAYPAL_ID,
+    CONTACT_EMAIL,
+    BASE_URL,
+} from "micetf-data";
 
 console.log(`Version des données: ${VERSION}`);
 console.log(`Dernière mise à jour: ${LAST_UPDATE}`);
 console.log(`ID PayPal: ${PAYPAL_ID}`);
+console.log(`Email de contact: ${CONTACT_EMAIL}`);
+console.log(`URL de base: ${BASE_URL}`);
 ```
-
-## Mise à jour des données
-
-Pour ajouter ou mettre à jour des applications ou des domaines, modifiez les fichiers correspondants dans le dossier `src/`. Ensuite, mettez à jour la version dans `src/constants.js`.
 
 ## Compatibilité avec le code existant
 
-Ce package maintient les fonctions `outils` et `amis` pour la compatibilité avec le code existant. Vous pouvez les utiliser de la même manière qu'auparavant :
+Ce package maintient certaines fonctions pour la compatibilité avec le code existant :
 
 ```javascript
-import { outils, amis } from "@domaine/data";
+import { outils, amis } from "micetf-data";
+import { getFullThumbnailPath, getThumbnailPath } from "micetf-data";
 
-// Récupérer les outils d'un domaine
+// Récupérer les outils d'un domaine (alias de getApplicationsByDomain)
 const mathsOutils = outils("maths");
 console.log(mathsOutils);
 
 // Récupérer les sites amis
 console.log(amis);
+
+// Utiliser les anciennes fonctions pour les miniatures
+// (ces fonctions sont des alias de getThumbnailUrl)
+const path1 = getFullThumbnailPath("fractions.png");
+const path2 = getThumbnailPath("fractions.png");
 ```
 
 ## Structure des données
@@ -111,9 +136,6 @@ console.log(amis);
   url: "/appli1/",           // URL relative ou absolue
   thumbnail: "appli1.jpg",   // Nom du fichier miniature
   keywords: ["maths", "geometrie", "cm1", "cm2"], // Mots-clés/domaines
-  isNew: false,              // Indique si l'application est nouvelle
-  lastUpdated: "2024-01-15", // Date de dernière mise à jour
-  version: "1.2.0"           // Version de l'application
 }
 ```
 
@@ -127,3 +149,11 @@ console.log(amis);
   icon: "calculator"         // Nom de l'icône associée
 }
 ```
+
+## Intégration avec Vite
+
+Ce package utilise `import.meta.glob` de Vite pour gérer les miniatures. Si vous n'utilisez pas Vite, vous devrez peut-être adapter la gestion des images.
+
+## Mise à jour des données
+
+Pour ajouter ou mettre à jour des applications ou des domaines, modifiez les fichiers correspondants dans le dossier `src/`. Ensuite, mettez à jour la version dans `src/constants.js`.

@@ -1,23 +1,34 @@
 /**
  * Module pour la gestion des miniatures des applications
- * Utilise import.meta.glob de Vite pour gérer les ressources statiques
  * @module thumbnails
  */
 
-// Importer toutes les images de miniatures
-export const thumbnails = import.meta.glob(
-    "../public/thumbnails/*.{png,jpg,jpeg,svg}",
-    {
-        eager: true, // Charger immédiatement (pas de chargement différé)
-        import: "default", // Importer la valeur par défaut (URL de l'image)
-    }
-);
-
 /**
- * Chemin de base pour les miniatures (pour compatibilité avec le code existant)
+ * Chemin de base pour les miniatures
  * @type {string}
  */
 export const THUMBNAIL_PATH = "./thumbnails/";
+
+// En mode Vite, utiliser import.meta.glob
+let thumbnailsCache = {};
+
+// Fonction d'initialisation des thumbnails qui peut être configurée selon l'environnement
+try {
+    // Essayer d'utiliser l'API Vite si disponible
+    if (import.meta && typeof import.meta.glob === "function") {
+        thumbnailsCache = import.meta.glob(
+            "../public/thumbnails/*.{png,jpg,jpeg,svg}",
+            {
+                eager: true,
+                import: "default",
+            }
+        );
+    }
+} catch (e) {
+    console.warn(
+        "L'API import.meta.glob n'est pas disponible. Les miniatures devront être gérées manuellement."
+    );
+}
 
 /**
  * Obtient l'URL d'une miniature à partir de son nom de fichier
@@ -34,14 +45,21 @@ export function getThumbnailUrl(filename) {
     // Chercher l'image dans les thumbnails importés en construisant le chemin relatif
     const keyPath = `../public/thumbnails/${filename}`;
 
-    // Si l'image existe exactement avec ce nom
-    if (thumbnails[keyPath]) {
-        return thumbnails[keyPath];
+    // Si l'environnement Vite est disponible et l'image existe avec ce nom
+    if (Object.keys(thumbnailsCache).length > 0) {
+        if (thumbnailsCache[keyPath]) {
+            return thumbnailsCache[keyPath];
+        }
+
+        // Sinon, chercher de façon plus souple
+        const key = Object.keys(thumbnailsCache).find((k) =>
+            k.includes(`/${filename}`)
+        );
+        if (key) return thumbnailsCache[key];
     }
 
-    // Sinon, chercher de façon plus souple (utile si le nom de fichier n'est pas exact)
-    const key = Object.keys(thumbnails).find((k) => k.includes(`/${filename}`));
-    return key ? thumbnails[key] : "";
+    // Fallback pour les environnements non-Vite
+    return `${THUMBNAIL_PATH}${filename}`;
 }
 
 /**
@@ -49,6 +67,7 @@ export function getThumbnailUrl(filename) {
  *
  * @param {string} filename - Nom du fichier image
  * @returns {string} URL de l'image
+ * @deprecated Utilisez getThumbnailUrl à la place
  */
 export function getFullThumbnailPath(filename) {
     return getThumbnailUrl(filename);
@@ -59,6 +78,7 @@ export function getFullThumbnailPath(filename) {
  *
  * @param {string} filename - Nom du fichier image
  * @returns {string} URL de l'image
+ * @deprecated Utilisez getThumbnailUrl à la place
  */
 export function getThumbnailPath(filename) {
     return getThumbnailUrl(filename);
@@ -74,18 +94,16 @@ export function thumbnailExists(filename) {
     if (!filename) return false;
     if (filename.startsWith("http")) return true;
 
-    const keyPath = `../public/thumbnails/${filename}`;
-    return (
-        !!thumbnails[keyPath] ||
-        Object.keys(thumbnails).some((k) => k.includes(`/${filename}`))
-    );
-}
+    // Si l'environnement Vite est disponible
+    if (Object.keys(thumbnailsCache).length > 0) {
+        const keyPath = `../public/thumbnails/${filename}`;
+        return (
+            !!thumbnailsCache[keyPath] ||
+            Object.keys(thumbnailsCache).some((k) => k.includes(`/${filename}`))
+        );
+    }
 
-export default {
-    getThumbnailUrl,
-    getFullThumbnailPath,
-    getThumbnailPath,
-    thumbnailExists,
-    thumbnails,
-    THUMBNAIL_PATH,
-};
+    // Dans les autres environnements, on ne peut pas vérifier facilement
+    // Retourne true par défaut pour éviter des erreurs
+    return true;
+}
