@@ -1,0 +1,104 @@
+# Dépendances
+node_modules/
+.pnpm-store/
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Fichiers de build et distribution
+dist/
+build/
+lib/
+out/
+.next/
+.nuxt/
+coverage/
+*.tsbuildinfo
+
+# Fichiers de cache
+.cache/
+.temp/
+.eslintcache
+.stylelintcache
+.rpt2_cache/
+.rts2_cache*/
+.vercel
+.turbo
+
+# Fichiers d'environnement et configuration locale
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.npmrc
+.yarnrc
+.yarnrc.yml
+.pnpmrc
+.DS_Store
+*.pem
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Éditeurs et IDEs
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.c9/
+*.launch
+*.swp
+*.swo
+.settings/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Fichiers temporaires
+tmp/
+temp/
+.temp/
+*.tmp
+*.bak
+
+# Fichiers générés par les tests
+junit.xml
+coverage/
+.nyc_output/
+cypress/videos/
+cypress/screenshots/
+
+# Fichiers spécifiques à TypeScript
+*.tsbuildinfo
+
+# Fichiers de documentation générés
+docs/_site/
+docs/.jekyll-cache/
+docs/.jekyll-metadata
+docs/.vuepress/dist/
+docs/api/
+
+# Fichiers spécifiques aux packages
+storybook-static/
+.storybook/static/
+public/stats.json
+public/stats.html
