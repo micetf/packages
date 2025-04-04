@@ -9,12 +9,8 @@
 export {
     applications,
     getApplicationById,
-    getApplicationsByDomain,
-    // L'ancienne fonction outils est maintenue pour compatibilité
-    // mais redirige vers getApplicationsByDomain
-    outils,
-    // Sites partenaires
-    amis,
+    getAllApplications,
+    getApplicationsByDomaine,
 } from "./applications.js";
 
 // Exporter les données des domaines
@@ -35,8 +31,6 @@ export { filterToolsBySearchTerm, formatDate } from "./utils.js";
 // Exporter les fonctions de gestion des miniatures
 export {
     getThumbnailUrl,
-    getFullThumbnailPath, // Maintenu pour compatibilité
-    getThumbnailPath, // Maintenu pour compatibilité
     thumbnailExists,
     THUMBNAIL_PATH,
 } from "./thumbnails.js";

@@ -1,17 +1,59 @@
 {
-    "name": "@domaine/ui",
+    "name": "@micetf/ui",
     "version": "1.0.0",
-    "private": true,
-    "main": "index.js",
-    "module": "index.js",
+    "description": "Composants UI réutilisables pour l'écosystème MiCetF",
     "type": "module",
-    "dependencies": {
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "prop-types": "^15.8.1"
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs",
+            "types": "./dist/index.d.ts"
+        },
+        "./styles.css": "./dist/style.css"
+    },
+    "files": [
+        "dist"
+    ],
+    "sideEffects": false,
+    "scripts": {
+        "dev": "vite build --watch",
+        "build": "vite build",
+        "build:types": "tsc --emitDeclarationOnly",
+        "lint": "eslint src --ext .js,.jsx",
+        "test": "vitest run"
     },
     "peerDependencies": {
         "react": "^18.2.0",
         "react-dom": "^18.2.0"
+    },
+    "dependencies": {
+        "prop-types": "^15.8.1"
+    },
+    "devDependencies": {
+        "@types/react": "^18.2.37",
+        "@types/react-dom": "^18.2.15",
+        "@vitejs/plugin-react": "^4.2.0",
+        "autoprefixer": "^10.4.16",
+        "postcss": "^8.4.31",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "tailwindcss": "^3.3.5",
+        "typescript": "^5.2.2",
+        "vite": "^5.0.0",
+        "vitest": "^0.34.6"
+    },
+    "keywords": [
+        "ui",
+        "components",
+        "react",
+        "micetf"
+    ],
+    "author": "Frédéric Misery <webmaster@micetf.fr>",
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
     }
 }

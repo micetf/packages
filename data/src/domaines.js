@@ -39,12 +39,6 @@ export const domaines = [
         href: "#geographie",
         icon: "globe",
     },
-    // {
-    //     name: "amis",
-    //     label: "Sites Amis",
-    //     href: "#amis",
-    //     icon: "link",
-    // },
 ];
 
 /**

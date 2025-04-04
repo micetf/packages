@@ -1,20 +1,41 @@
 {
-    "name": "micetf-data",
+    "name": "@micetf/data",
     "version": "1.0.0",
     "description": "Données partagées pour les applications MiCetF",
-    "main": "src/index.js",
     "type": "module",
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs",
+            "types": "./dist/index.d.ts"
+        }
+    },
     "files": [
-        "src",
+        "dist",
         "public"
     ],
+    "scripts": {
+        "dev": "vite build --watch",
+        "build": "vite build",
+        "build:types": "tsc --emitDeclarationOnly"
+    },
+    "dependencies": {
+        "prop-types": "latest"
+    },
+    "devDependencies": {
+        "typescript": "^5.2.2",
+        "vite": "^5.0.0"
+    },
     "keywords": [
         "micetf",
         "data"
     ],
     "author": "Frédéric Misery <webmaster@micetf.fr>",
     "license": "MIT",
-    "dependencies": {
-        "prop-types": "latest"
+    "publishConfig": {
+        "access": "public"
     }
 }
