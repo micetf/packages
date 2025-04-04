@@ -1,24 +1,29 @@
-# MiCetF Data - Package de données partagées
+# @micetf/data
 
-Ce package centralise toutes les données descriptives des applications du domaine MiCetF. Il permet une gestion unifiée des informations qui peuvent être partagées entre toutes les applications.
+Package centralisant toutes les données descriptives des applications du domaine MiCetF. Il permet une gestion unifiée des informations partagées entre applications.
 
 ## Installation
 
-### Dans le monorepo
-
-Si vous travaillez dans le monorepo, les dépendances sont déjà gérées par les workspaces npm.
-
-### Dans un projet externe
-
-Si vous souhaitez utiliser ces données dans un projet externe, vous pouvez les installer via npm :
-
 ```bash
-# Si vous avez publié le package sur npm :
-npm install micetf-data
+# Avec npm
+npm install @micetf/data
 
-# Si vous utilisez un lien local :
-npm install file:../path/to/packages/data
+# Avec pnpm
+pnpm add @micetf/data
+
+# Avec yarn
+yarn add @micetf/data
 ```
+
+## Contenu du package
+
+Ce package fournit:
+
+- Catalogue des applications MiCetF avec métadonnées
+- Liste des domaines thématiques
+- Constantes partagées (version, URLs, contacts)
+- Utilitaires pour la recherche et le filtrage
+- Gestion des miniatures
 
 ## API
 
@@ -29,7 +34,7 @@ import {
     applications,
     getApplicationById,
     getApplicationsByDomain,
-} from "micetf-data";
+} from "@micetf/data";
 
 // Récupérer toutes les applications
 console.log(applications);
@@ -43,10 +48,23 @@ const mathsApps = getApplicationsByDomain("maths");
 console.log(mathsApps);
 ```
 
+#### Structure d'une application
+
+```javascript
+{
+  id: "fractions",              // Identifiant unique
+  title: "Fractions",           // Titre
+  description: "Application web permettant...", // Description
+  url: "Fractions",             // URL relative ou absolue
+  thumbnail: "fractions.png",   // Nom du fichier miniature
+  keywords: ["maths", "numération", "fractions"], // Mots-clés/domaines
+}
+```
+
 ### Domaines
 
 ```javascript
-import { domaines, getDomaineById, getAllDomaines } from "micetf-data";
+import { domaines, getDomaineById, getAllDomaines } from "@micetf/data";
 
 // Récupérer tous les domaines
 console.log(domaines);
@@ -58,10 +76,21 @@ const maths = getDomaineById("maths");
 console.log(maths);
 ```
 
+#### Structure d'un domaine
+
+```javascript
+{
+  name: "maths",             // Identifiant unique
+  label: "Mathématiques",    // Libellé à afficher
+  href: "#maths",            // Lien pour la navigation
+  icon: "calculator"         // Nom de l'icône associée
+}
+```
+
 ### Miniatures et images
 
 ```javascript
-import { getThumbnailUrl, thumbnailExists } from "micetf-data";
+import { getThumbnailUrl, thumbnailExists } from "@micetf/data";
 
 // Obtenir l'URL d'une miniature
 const thumbnailUrl = getThumbnailUrl("fractions.png");
@@ -75,7 +104,7 @@ console.log(exists);
 ### Utilitaires
 
 ```javascript
-import { filterToolsBySearchTerm, formatDate } from "micetf-data";
+import { filterToolsBySearchTerm, formatDate } from "@micetf/data";
 
 // Filtrer les outils par terme de recherche
 const filteredTools = filterToolsBySearchTerm(applications, "fraction");
@@ -94,7 +123,7 @@ import {
     PAYPAL_ID,
     CONTACT_EMAIL,
     BASE_URL,
-} from "micetf-data";
+} from "@micetf/data";
 
 console.log(`Version des données: ${VERSION}`);
 console.log(`Dernière mise à jour: ${LAST_UPDATE}`);
@@ -108,8 +137,8 @@ console.log(`URL de base: ${BASE_URL}`);
 Ce package maintient certaines fonctions pour la compatibilité avec le code existant :
 
 ```javascript
-import { outils, amis } from "micetf-data";
-import { getFullThumbnailPath, getThumbnailPath } from "micetf-data";
+import { outils, amis } from "@micetf/data";
+import { getFullThumbnailPath, getThumbnailPath } from "@micetf/data";
 
 // Récupérer les outils d'un domaine (alias de getApplicationsByDomain)
 const mathsOutils = outils("maths");
@@ -124,36 +153,39 @@ const path1 = getFullThumbnailPath("fractions.png");
 const path2 = getThumbnailPath("fractions.png");
 ```
 
-## Structure des données
-
-### Application
-
-```javascript
-{
-  id: "appli1",              // Identifiant unique
-  title: "Application 1",    // Titre
-  description: "Description de l'application 1", // Description
-  url: "/appli1/",           // URL relative ou absolue
-  thumbnail: "appli1.jpg",   // Nom du fichier miniature
-  keywords: ["maths", "geometrie", "cm1", "cm2"], // Mots-clés/domaines
-}
-```
-
-### Domaine
-
-```javascript
-{
-  name: "maths",             // Identifiant unique
-  label: "Mathématiques",    // Libellé à afficher
-  href: "#maths",            // Lien pour la navigation
-  icon: "calculator"         // Nom de l'icône associée
-}
-```
-
 ## Intégration avec Vite
 
-Ce package utilise `import.meta.glob` de Vite pour gérer les miniatures. Si vous n'utilisez pas Vite, vous devrez peut-être adapter la gestion des images.
+Ce package utilise `import.meta.glob` de Vite pour gérer les miniatures. Si vous n'utilisez pas Vite, vous pouvez toujours accéder aux images via les chemins renvoyés par `getThumbnailUrl()` mais vous devrez peut-être adapter la gestion des images.
+
+## Développement
+
+### Prérequis
+
+- Node.js ≥ 18
+- pnpm ≥ 8
+
+### Installation des dépendances
+
+```bash
+pnpm install
+```
+
+### Build
+
+```bash
+pnpm build
+```
+
+### Développement en mode watch
+
+```bash
+pnpm dev
+```
 
 ## Mise à jour des données
 
-Pour ajouter ou mettre à jour des applications ou des domaines, modifiez les fichiers correspondants dans le dossier `src/`. Ensuite, mettez à jour la version dans `src/constants.js`.
+Pour ajouter ou mettre à jour des applications ou des domaines, modifiez les fichiers correspondants dans le dossier `src/`. N'oubliez pas d'incrémenter la version dans `src/constants.js` et de mettre à jour `LAST_UPDATE`.
+
+## Licence
+
+MIT

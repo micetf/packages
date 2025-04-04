@@ -1,44 +1,46 @@
-# Domaine UI
+# @micetf/ui
 
-Un ensemble de composants UI réutilisables pour les applications du domaine.
+Bibliothèque de composants UI réutilisables pour les applications MiCetF.
 
 ## Installation
 
-### Dans le monorepo
-
-Si vous travaillez dans le monorepo, les dépendances sont déjà gérées par les workspaces npm.
-
-### Dans un projet externe
-
-Si vous souhaitez utiliser ces composants dans un projet externe, vous pouvez les installer via npm :
-
 ```bash
-# Si vous avez publié le package sur npm :
-npm install @domaine/ui
+# Avec npm
+npm install @micetf/ui
 
-# Si vous utilisez un lien local :
-npm install file:../path/to/packages/ui
+# Avec pnpm
+pnpm add @micetf/ui
+
+# Avec yarn
+yarn add @micetf/ui
 ```
 
-## Utilisation
+## Fonctionnalités
+
+- Composants React optimisés pour l'écosystème MiCetF
+- Style intégré avec Tailwind CSS
+- Accessibilité prise en compte
+- Composants adaptés aux besoins spécifiques des applications éducatives
+
+## Composants disponibles
 
 ### Navbar
 
-Le composant Navbar est conçu pour être réutilisé dans toutes les applications du domaine, tout en permettant une personnalisation facile :
+Barre de navigation avec fil d'Ariane pour une navigation cohérente entre les applications.
 
 ```jsx
-import { Navbar } from "@domaine/ui";
+import { Navbar } from "@micetf/ui";
 
 function App() {
     return (
         <div>
             <Navbar
-                breadcrumb={["MiCetF", "appli1", "page-1"]}
-                subtitle="Générateur"
+                breadcrumb={["MiCetF", "mathematiques", "fractions"]}
+                subtitle="Exercices"
                 showHelp={true}
-                onHelpClick={() => alert("Aide!")}
+                onHelpClick={() => setShowHelp(true)}
             />
-            {/* Le reste de votre application */}
+            {/* Contenu de votre application */}
         </div>
     );
 }
@@ -46,17 +48,22 @@ function App() {
 
 #### Props
 
--   `breadcrumb` (Array<string>, obligatoire) : Un tableau qui définit le fil d'Ariane, où le premier élément est typiquement le nom du domaine.
--   `subtitle` (string, optionnel) : Un sous-titre à afficher après le dernier élément du fil d'Ariane.
--   `showHelp` (boolean, optionnel, défaut: false) : Indique si le bouton d'aide doit être affiché.
--   `onHelpClick` (function, optionnel) : Fonction appelée lors du clic sur le bouton d'aide.
+| Prop           | Type         | Default                 | Description                                                    |
+| -------------- | ------------ | ----------------------- | -------------------------------------------------------------- |
+| `breadcrumb`   | `string[]`   | (obligatoire)           | Tableau représentant le fil d'Ariane                           |
+| `subtitle`     | `string`     | `undefined`             | Sous-titre à afficher après le dernier élément du fil d'Ariane |
+| `showHelp`     | `boolean`    | `false`                 | Affiche le bouton d'aide si `true`                             |
+| `onHelpClick`  | `() => void` | `undefined`             | Fonction appelée au clic sur le bouton d'aide                  |
+| `baseUrl`      | `string`     | `"https://micetf.fr"`   | URL de base du site                                            |
+| `paypalId`     | `string`     | `"Q2XYVFP4EEX2J"`       | ID PayPal pour le bouton de don                                |
+| `contactEmail` | `string`     | `"webmaster@micetf.fr"` | Email de contact                                               |
 
 ### Icon
 
-Le composant Icon permet d'afficher des icônes cohérentes dans toutes les applications :
+Composant pour afficher des icônes cohérentes dans toutes les applications.
 
 ```jsx
-import { Icon, ICONS } from "@domaine/ui";
+import { Icon, ICONS } from "@micetf/ui";
 
 function MyComponent() {
     return (
@@ -69,15 +76,84 @@ function MyComponent() {
 
 #### Props
 
--   `name` (string, obligatoire) : Le nom de l'icône à afficher, utilisez les constantes ICONS.
--   `className` (string, optionnel) : Classes CSS additionnelles.
--   `size` (string, optionnel, défaut: "4") : Taille de l'icône (en unités Tailwind).
+| Prop        | Type     | Default       | Description                                      |
+| ----------- | -------- | ------------- | ------------------------------------------------ |
+| `name`      | `string` | (obligatoire) | Nom de l'icône (utiliser les constantes `ICONS`) |
+| `className` | `string` | `""`          | Classes CSS additionnelles                       |
+| `size`      | `string` | `"4"`         | Taille de l'icône (en unités Tailwind)           |
+
+#### Icônes disponibles
+
+- `ICONS.CHEVRON_RIGHT` - Flèche vers la droite
+- `ICONS.SEARCH` - Loupe de recherche
+- `ICONS.HEART` - Cœur
+- `ICONS.ENVELOPE` - Enveloppe (email)
+- `ICONS.QUESTION` - Point d'interrogation
+- `ICONS.HOME` - Maison
+
+## Utilisation avec Tailwind CSS
+
+Pour utiliser cette bibliothèque avec Tailwind CSS, ajoutez le chemin vers les composants dans votre configuration Tailwind :
+
+```js
+// tailwind.config.js
+module.exports = {
+    content: [
+        "./src/**/*.{js,ts,jsx,tsx}",
+        // Ajoutez cette ligne pour scanner les composants de @micetf/ui
+        "./node_modules/@micetf/ui/dist/**/*.{js,ts,jsx,tsx}",
+    ],
+    // Reste de votre configuration...
+};
+```
+
+## Personnalisation des styles
+
+Les composants utilisent Tailwind CSS et peuvent être personnalisés en surchargeant les classes CSS dans votre application ou en étendant le thème Tailwind :
+
+```js
+// tailwind.config.js
+module.exports = {
+    // ...
+    theme: {
+        extend: {
+            colors: {
+                primary: {
+                    50: "#f0f9ff",
+                    // ...autres teintes
+                    600: "#0284c7", // Couleur principale
+                },
+            },
+        },
+    },
+};
+```
 
 ## Développement
 
-### Ajout d'une nouvelle icône
+### Prérequis
 
-Pour ajouter une nouvelle icône, modifiez le fichier `Icon/Icon.jsx` :
+- Node.js ≥ 18
+- pnpm ≥ 8
 
-1. Ajoutez le nom de l'icône dans l'objet `ICONS`
-2. Ajoutez le SVG correspondant dans le switch
+### Installation des dépendances
+
+```bash
+pnpm install
+```
+
+### Build
+
+```bash
+pnpm build
+```
+
+### Développement en mode watch
+
+```bash
+pnpm dev
+```
+
+## Licence
+
+MIT
