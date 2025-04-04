@@ -19,13 +19,13 @@ export default defineConfig({
                     "react-dom": "ReactDOM",
                     "react/jsx-runtime": "jsxRuntime",
                 },
+                assetFileNames: (assetInfo) => {
+                    if (assetInfo.name === "style.css") return "index.css";
+                    return assetInfo.name;
+                },
             },
         },
         sourcemap: true,
-        // Générer des CSS séparés
-        cssCodeSplit: true,
-    },
-    server: {
-        watch: false,
+        cssCodeSplit: false, // Génère un seul fichier CSS
     },
 });

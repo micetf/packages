@@ -1,28 +1,33 @@
-/* Importation de Tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* Variables CSS globales */
 :root {
-  --color-primary: #0ea5e9;
-  --color-secondary: #6366f1;
-  --color-accent: #f59e0b;
-  --color-background: #ffffff;
-  --color-text: #1f2937;
+    --color-primary: #0ea5e9;
+    --color-secondary: #6366f1;
+    --color-accent: #f59e0b;
+    --color-background: #ffffff;
+    --color-text: #1f2937;
 }
 
 /* Classes utilitaires personnalisées */
 @layer components {
-  .btn {
-    @apply px-4 py-2 rounded font-medium transition-colors;
-  }
-  
-  .btn-primary {
-    @apply bg-primary-600 text-white hover:bg-primary-700;
-  }
-  
-  .btn-secondary {
-    @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
-  }
+    .btn {
+        @apply px-4 py-2 rounded font-medium transition-colors;
+    }
+
+    .btn-primary {
+        @apply bg-primary-600 text-white hover:bg-primary-700;
+    }
+
+    .btn-secondary {
+        @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
+    }
+    svg.fill-current {
+        display: inline-block;
+        vertical-align: middle;
+        min-width: 1rem;
+        min-height: 1rem;
+    }
 }
