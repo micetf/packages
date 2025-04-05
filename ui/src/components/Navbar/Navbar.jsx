@@ -10,6 +10,7 @@ import Icon, { ICONS } from "../Icon";
  * @param {string} [props.subtitle] - Sous-titre optionnel à afficher après le dernier élément du fil d'Ariane
  * @param {function} [props.onHelpClick] - Fonction de callback pour le bouton d'aide (optionnel)
  * @param {boolean} [props.showHelp=false] - Indique si le bouton d'aide doit être affiché
+ * @param {boolean} [props.showSearch=true] - Indique si le bouton de recherche doit être affiché
  * @param {string} [props.baseUrl="https://micetf.fr"] - URL de base du domaine
  * @param {string} [props.paypalId="Q2XYVFP4EEX2J"] - ID PayPal pour les donations
  * @param {string} [props.contactEmail="webmaster@micetf.fr"] - Email de contact
@@ -20,9 +21,10 @@ const Navbar = ({
     subtitle,
     onHelpClick,
     showHelp = false,
+    showSearch = true,
     baseUrl = "https://micetf.fr",
     paypalId = "Q2XYVFP4EEX2J",
-    contactEmail = "webmaster@micetf.fr"
+    contactEmail = "webmaster@micetf.fr",
 }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -38,7 +40,10 @@ const Navbar = ({
                     {/* Fil d'Ariane */}
                     <div className="flex items-center space-x-2 overflow-x-auto">
                         {breadcrumb.map((item, index) => (
-                            <div key={index} className="flex items-center whitespace-nowrap">
+                            <div
+                                key={index}
+                                className="flex items-center whitespace-nowrap"
+                            >
                                 {index > 0 && (
                                     <Icon
                                         name={ICONS.CHEVRON_RIGHT}
@@ -137,15 +142,17 @@ const Navbar = ({
                             </button>
                         </form>
 
-                        {/* Bouton Recherche */}
-                        <a
-                            href={`${baseUrl}/outils/`}
-                            className="bg-gray-600 p-2 rounded hover:bg-gray-700 transition-colors"
-                            title="Chercher un outil sur micetf.fr..."
-                            aria-label="Rechercher un outil"
-                        >
-                            <Icon name={ICONS.SEARCH} />
-                        </a>
+                        {/* Bouton Recherche (conditionnel) */}
+                        {showSearch && (
+                            <a
+                                href={`${baseUrl}/outils/`}
+                                className="bg-gray-600 p-2 rounded hover:bg-gray-700 transition-colors"
+                                title="Chercher un outil sur micetf.fr..."
+                                aria-label="Rechercher un outil"
+                            >
+                                <Icon name={ICONS.SEARCH} />
+                            </a>
+                        )}
 
                         {/* Bouton Contact */}
                         <a
@@ -186,14 +193,16 @@ const Navbar = ({
                         <Icon name={ICONS.HEART} className="mr-2" />
                         <span>Faire un don</span>
                     </a>
-                    <a
-                        href={`${baseUrl}/outils/`}
-                        className="flex items-center py-2 text-gray-300 hover:text-white"
-                        aria-label="Rechercher un outil"
-                    >
-                        <Icon name={ICONS.SEARCH} className="mr-2" />
-                        <span>Chercher un outil sur micetf.fr</span>
-                    </a>
+                    {showSearch && (
+                        <a
+                            href={`${baseUrl}/outils/`}
+                            className="flex items-center py-2 text-gray-300 hover:text-white"
+                            aria-label="Rechercher un outil"
+                        >
+                            <Icon name={ICONS.SEARCH} className="mr-2" />
+                            <span>Chercher un outil sur micetf.fr</span>
+                        </a>
+                    )}
                     <a
                         href={`mailto:${contactEmail}?subject=${encodeURIComponent(emailSubject)}`}
                         className="flex items-center py-2 text-gray-300 hover:text-white"
@@ -213,6 +222,7 @@ Navbar.propTypes = {
     subtitle: PropTypes.string,
     onHelpClick: PropTypes.func,
     showHelp: PropTypes.bool,
+    showSearch: PropTypes.bool,
     baseUrl: PropTypes.string,
     paypalId: PropTypes.string,
     contactEmail: PropTypes.string,

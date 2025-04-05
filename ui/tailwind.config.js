@@ -1,33 +1,71 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-    content: [
-      "./src/**/*.{js,jsx,ts,tsx}",
-    ],
+    content: ["./src/**/*.{js,jsx,ts,tsx}"],
     theme: {
-      extend: {
-        colors: {
-          primary: {
-            50: '#f0f9ff',
-            100: '#e0f2fe',
-            200: '#bae6fd',
-            300: '#7dd3fc',
-            400: '#38bdf8',
-            500: '#0ea5e9',
-            600: '#0284c7',
-            700: '#0369a1',
-            800: '#075985',
-            900: '#0c4a6e',
-            950: '#082f49',
-          },
+        extend: {
+            colors: {
+                primary: {
+                    50: "#f0f9ff",
+                    100: "#e0f2fe",
+                    200: "#bae6fd",
+                    300: "#7dd3fc",
+                    400: "#38bdf8",
+                    500: "#0ea5e9",
+                    600: "#0284c7",
+                    700: "#0369a1",
+                    800: "#075985",
+                    900: "#0c4a6e",
+                    950: "#082f49",
+                },
+            },
         },
-      },
     },
     plugins: [],
-    // Assurez-vous que les classes Tailwind sont incluses même si elles ne sont pas 
+    // Assurez-vous que les classes Tailwind sont incluses même si elles ne sont pas
     // directement utilisées dans les composants (utile pour les classes dynamiques)
     safelist: [
-      {
-        pattern: /^(bg|text|border|h|w)-(primary|gray|red|green|blue|yellow)-\d+$/,
-      },
+        {
+            pattern:
+                /^(bg|text|border|h|w)-(primary|gray|red|green|blue|yellow)-\d+$/,
+        },
+        // Classes essentielles pour Navbar
+        "fixed",
+        "top-0",
+        "w-full",
+        "bg-gray-800",
+        "text-white",
+        "z-50",
+        "container",
+        "mx-auto",
+        "px-4",
+        "flex",
+        "items-center",
+        "justify-between",
+        "h-16",
+        "space-x-2",
+        "overflow-x-auto",
+        "whitespace-nowrap",
+        "text-xl",
+        "font-bold",
+        "text-gray-400",
+        "text-sm",
+        "ml-2",
+        "md:hidden",
+        "focus:outline-none",
+        "hidden",
+        "md:flex",
+        "bg-gray-600",
+        "p-2",
+        "rounded",
+        "hover:bg-gray-700",
+        "transition-colors",
+        "bg-yellow-500",
+        "hover:bg-yellow-600",
+        "flex",
+        "items-center",
+        "py-2",
+        "text-gray-300",
+        "hover:text-white",
+        "mr-2",
     ],
-  }
+};
